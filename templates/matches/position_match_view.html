@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    {% if title %}
+    <h1>{{ title }}</h1>
+    {% endif %}
+
+    {% for match in matches %}
+    {{ match.user }}
+    {% if match.user.profile.picture %}
+    <img src="{{ match.user.profile.picture.url }}"/>
+    {% endif %}
+
+    {% endfor %}
+</div>
+
+
+{% endblock %}

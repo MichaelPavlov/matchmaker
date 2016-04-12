@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% if new_user %}
+
+
+{% if question_instance %}
+<div class="text-center">
+    {% include "questions/user_response_form.html" with instance=question_instance form=question_form title_size=2 %}
+</div>
+{% else %}
+<p class="lead text-center">
+    You have already answered all questions. Check back for more later.
+</p>
+{% endif %}
+<p class="lead">
+    Answer more questions to get matches and be able to connects with ather users
+</p>
+{% else %}
+<div class="row">
+    <div class="col-sm-8">
+        {% if title %}
+        <h1>{{ title }}</h1>
+        {% endif %}
+        {% if question_instance %}
+        <div class="text-center">
+            {% include "questions/user_response_form.html" with instance=question_instance form=question_form
+            title_size=2 %}
+        </div>
+        {% else %}
+        <p class="lead text-center">
+            You have already answered all questions. Check back for more later.
+        </p>
+        {% endif %}
+        {% if mutual_likes %}
+        <div class="col-sm-12">
+            <h3>Mutual Interest</h3>
+            {% for liked_user in mutual_likes %}
+            <div class="col-sm-3 text-center">
+                <a href="{{ liked_user.profile.get_absolute_url }}">
+                    {{ match_user }}</a>
+                <a href="{{ liked_user.profile.get_absolute_url }}">
+                    {% if liked_user.profile.picture %}
+                    <img class="img-responsive center-block img-featured-match"
+                         src="{{ liked_user.profile.picture.url }}"/>
+                    {% else %}
+                    <img class="img-responsive center-block img-featured-match" src="{% static 'img/HQwHI.jpg' %}"/>
+                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-sm-4">
+        <div class="col-sm-12">
+            <h3>Matches</h3>
+            <hr/>
+        </div>
+        {% for match_user, percent in matches %}
+        <div class="col-sm-4 text-center">
+            <a href="{{ match_user.profile.get_absolute_url }}">
+                {{ match_user }}</a>
+            <a href="{{ match_user.profile.get_absolute_url }}">
+                {% if match_user.profile.picture %}
+                <img class="img-responsive center-block img-featured-match" src="{{ match_user.profile.picture.url }}"/>
+                {% else %}
+                <img class="img-responsive center-block img-featured-match" src="{% static 'img/HQwHI.jpg' %}"/>
+                {% endif %}
+            </a>
+            {{ percent }}
+        </div>
+        {% endfor %}
+
+
+        <div class="col-sm-12">
+            <h3>Suggested Positions</h3>
+            <hr/>
+        </div>
+        {% for pos in positions %}
+        <div class="col-sm-4 text-center">
+            <p class="lead"><a href="{{ pos.get_match_url }}">{{ pos.job.text }}</a></p>
+        </div>
+        {% endfor %}
+
+        <div class="col-sm-12">
+            <h3>Suggested Location</h3>
+            <hr/>
+        </div>
+        {% for pos in locations %}
+        <div class="col-sm-4 text-center">
+            <p class="lead"><a href="{{ pos.get_match_url }}">{{ pos.location.name }}</a></p>
+        </div>
+        {% endfor %}
+
+        <div class="col-sm-12">
+            <h3>Suggested Employers</h3>
+            <hr/>
+        </div>
+        {% for pos in employers %}
+        <div class="col-sm-4 text-center">
+            <p class="lead"><a href="{{ pos.get_match_url }}">{{ pos.employer.name }}</a></p>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
