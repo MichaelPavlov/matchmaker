@@ -1,4 +1,4 @@
 # matchmaker
 
 
-Project made from coding for entrepreneurs tutorial
+Django project made from coding for entrepreneurs tutorial
